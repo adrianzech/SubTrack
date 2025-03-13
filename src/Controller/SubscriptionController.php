@@ -45,7 +45,7 @@ class SubscriptionController extends AbstractController
         $startDate = new DateTimeImmutable();
         $subscription = new Subscription(
             name: '',
-            amount: 0.0,
+            amount: (string)0.0,
             billingCycle: BillingCycleEnum::MONTHLY,
             startDate: $startDate,
             nextPaymentDate: $startDate

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Subscription{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto py-8 px-4 max-w-4xl">
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title">Create New Category</h2>
+                <p class="text-base-content/70">Add a new category to your tracker</p>
+
+                <div class="divider"></div>
+
+                {{ form_start(form) }}
+                {% if not form.vars.valid %}
+                    <div class="alert alert-error mb-6">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <h3 class="font-medium">There were errors with your submission</h3>
+                            <div class="mt-2">
+                                {{ form_errors(form) }}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <div class="form-control mb-4">
+                            {{ form_label(form.name, 'Category Name', {'label_attr': {'class': 'label'}}) }}
+                            {{ form_widget(form.name, {'attr': {'class': 'input input-bordered w-full'}}) }}
+                            {% if form_errors(form.name) %}
+                                <div class="text-error text-sm mt-1">{{ form_errors(form.name) }}</div>
+                            {% endif %}
+                        </div>
+
+                <div class="divider"></div>
+
+                <div class="card-actions justify-end">
+                    <a href="{{ path('app_settings_index') }}" class="btn btn-ghost">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        Create Category
+                    </button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
