@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <div class="card w-96 bg-base-100 h-full w-full flex items-center justify-center py-12">
+        <div class="card-body">
+            <h2 class="card-title text-center text-2xl font-bold mb-6">Login</h2>
+
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3 text-center">
+                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}"
+                                                                           class="link link-primary">Logout</a>
+                </div>
+            {% endif %}
+
+            <!-- Login Form -->
+            <form action="{{ path('app_login') }}" method="post">
+                <!-- Email Input -->
+                <div class="form-control w-full mb-4">
+                    <label class="label">
+                        <span class="label-text">Email</span>
+                    </label>
+                    <input type="email" name="_username" value="{{ last_username }}" placeholder="your@email.com"
+                           class="input input-bordered w-full"
+                           required autofocus/>
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-control w-full mb-6">
+                    <label class="label">
+                        <span class="label-text">Password</span>
+                    </label>
+                    <input type="password" name="_password" placeholder="••••••••" class="input input-bordered w-full"
+                           required/>
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="form-control mb-6">
+                    <label class="cursor-pointer label justify-start">
+                        <input type="checkbox" name="_remember_me" class="checkbox checkbox-primary mr-2"/>
+                        <span class="label-text">Remember me</span>
+                    </label>
+                </div>
+
+                <!-- CSRF Token (for Symfony) -->
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                <!-- Submit Button -->
+                <div class="card-actions justify-end">
+                    <button type="submit" class="btn btn-primary w-full">Login</button>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="{{ path('app_register') }}"
+                                                 class="link link-primary">Register</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

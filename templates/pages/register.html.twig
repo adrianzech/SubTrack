@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <div class="card w-96 bg-base-100 h-full w-full flex items-center justify-center py-12">
+        <div class="card-body">
+            <h2 class="card-title text-center text-2xl font-bold mb-6">Register</h2>
+
+            {{ form_start(registrationForm) }}
+            <!-- Email Input -->
+            <div class="form-control w-full mb-4">
+                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'label-text'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'input input-bordered w-full', 'placeholder': 'your@email.com', 'required': true, 'autofocus': true}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <!-- Password Input -->
+            <div class="form-control w-full mb-6">
+                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'label-text'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'input input-bordered w-full', 'placeholder': '••••••••', 'required': true}}) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+
+            <!-- Terms Checkbox -->
+            <div class="form-control mb-6">
+                <label class="cursor-pointer label justify-start">
+                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'checkbox checkbox-primary mr-2'}}) }}
+                    <span class="label-text">Agree to terms</span>
+                </label>
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="card-actions justify-end">
+                <button type="submit" class="btn btn-primary w-full">Register</button>
+            </div>
+
+            <!-- Login Link -->
+            <div class="text-center mt-4">
+                <p>Already have an account? <a href="{{ path('app_login') }}"
+                                               class="link link-primary">Login</a></p>
+            </div>
+
+            {{ form_end(registrationForm) }}
+        </div>
+    </div>
+{% endblock %}
