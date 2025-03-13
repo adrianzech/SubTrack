@@ -29,10 +29,10 @@ class SubscriptionFormType extends AbstractType
                 ],
             ])
             ->add('category', EntityType::class, [
-                'class' => Category::class,
+                'class'        => Category::class,
                 'choice_label' => 'name',
-                'placeholder' => 'Select a category',
-                'required' => false,
+                'placeholder'  => 'Select a category',
+                'required'     => false,
             ])
             ->add('amount', MoneyType::class, [
                 'currency' => 'EUR',
@@ -45,28 +45,28 @@ class SubscriptionFormType extends AbstractType
                 #'help' => 'How often the subscription bills (e.g., every 1 month, every 2 weeks)',
             ])
             ->add('billingCycle', EnumType::class, [
-                'class' => BillingCycleEnum::class,
+                'class'        => BillingCycleEnum::class,
                 'choice_label' => fn($choice) => ucfirst($choice->value),
             ])
             ->add('startDate', DateType::class, [
                 'widget' => 'single_text',
-                'input' => 'datetime_immutable',
+                'input'  => 'datetime_immutable',
             ])
             ->add('endDate', DateType::class, [
-                'widget' => 'single_text',
-                'input' => 'datetime_immutable',
+                'widget'   => 'single_text',
+                'input'    => 'datetime_immutable',
                 'required' => false,
-                'help' => 'Leave empty for subscriptions with no end date',
+                'help'     => 'Leave empty for subscriptions with no end date',
             ])
             ->add('paymentMethod', TextType::class, [
                 'required' => false,
-                'attr' => [
+                'attr'     => [
                     'placeholder' => 'Credit Card, PayPal, etc.'
                 ],
             ])
             ->add('autoRenewal', CheckboxType::class, [
                 'required' => false,
-                'data' => true,
+                'data'     => true,
             ]);
     }
 
