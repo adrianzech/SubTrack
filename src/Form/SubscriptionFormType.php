@@ -26,24 +26,23 @@ class SubscriptionFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Netflix, Spotify, etc.'
+                    'placeholder' => 'app_subscription_placeholder'
                 ],
             ])
             ->add('category', EntityType::class, [
                 'class'        => Category::class,
                 'choice_label' => 'name',
-                'placeholder'  => 'Select a category',
+                'placeholder'  => 'app_category_select',
                 'required'     => false,
             ])
             ->add('amount', MoneyType::class, [
-                'currency' => 'EUR',
+                'currency' => 'app_currency_short',
             ])
             ->add('billingOffset', NumberType::class, [
                 'attr' => [
                     'min' => 1,
                 ],
                 'data' => 1,
-                #'help' => 'How often the subscription bills (e.g., every 1 month, every 2 weeks)',
             ])
             ->add('billingCycle', EnumType::class, [
                 'class'        => BillingCycleEnum::class,
@@ -57,12 +56,12 @@ class SubscriptionFormType extends AbstractType
                 'widget'   => 'single_text',
                 'input'    => 'datetime_immutable',
                 'required' => false,
-                'help'     => 'Leave empty for subscriptions with no end date',
+                'help'     => 'app_subscription_no_end_date',
             ])
             ->add('paymentMethod', EntityType::class, [
                 'class'        => PaymentMethod::class,
                 'choice_label' => 'name',
-                'placeholder'  => 'Select a payment method',
+                'placeholder'  => 'app_category_select',
                 'required'     => true,
             ])
             ->add('autoRenewal', CheckboxType::class, [

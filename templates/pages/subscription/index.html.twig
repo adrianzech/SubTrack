@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Subscriptions{% endblock %}
+{% block title %}{{ "app_subscriptions"|trans }}{% endblock %}
 
 {% block body %}
     <div class="container mx-auto py-8 px-4">
         <!-- Header with Add Button -->
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-3xl font-bold">Subscriptions</h1>
+            <h1 class="text-3xl font-bold">{{ "app_subscriptions"|trans }}</h1>
             <a href="{{ path('app_subscription_new') }}" class="btn btn-primary">
-                Add Subscription
+                {{ "app_subscription_new"|trans }}
             </a>
         </div>
 
@@ -40,17 +40,17 @@
         <div class="flex justify-center mb-6">
             <div class="stats shadow">
                 <div class="stat">
-                    <div class="stat-title">Subscriptions</div>
+                    <div class="stat-title">{{ "app_subscriptions"|trans }}</div>
                     <div class="stat-value text-primary">{{ active_count }}</div>
                 </div>
 
                 <div class="stat">
-                    <div class="stat-title">Monthly Cost</div>
+                    <div class="stat-title">{{ "app_subscription_monthly_cost"|trans }}</div>
                     <div class="stat-value text-primary">{{ monthly_cost }}€</div>
                 </div>
 
                 <div class="stat">
-                    <div class="stat-title">Yearly Cost</div>
+                    <div class="stat-title">{{ "app_subscription_yearly_cost"|trans }}</div>
                     <div class="stat-value text-primary">{{ yearly_cost }}€</div>
                 </div>
             </div>
@@ -63,11 +63,10 @@
         <div class="card bg-base-100 shadow-xl">
             {% if subscriptions is empty %}
                 <div class="card-body items-center text-center">
-                    <p class="text-base-content opacity-70">No subscriptions found. Get started by adding your first
-                        subscription.</p>
+                    <p class="text-base-content opacity-70">{{ "app_subscription_not_found"|trans }}</p>
                     <div class="card-actions mt-6">
                         <a href="{{ path('app_subscription_new') }}" class="btn btn-primary">
-                            Add Subscription
+                            {{ "app_subscription_new"|trans }}
                         </a>
                     </div>
                 </div>
@@ -76,14 +75,14 @@
                     <table class="table table-zebra">
                         <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Amount</th>
-                            <th>Billing</th>
-                            <th>Next Payment</th>
-                            <th>Payment Method</th>
-                            <th>Status</th>
-                            <th>Actions</th>
+                            <th>{{ "app_subscription_name"|trans }}</th>
+                            <th>{{ "app_category"|trans }}</th>
+                            <th>{{ "app_amount"|trans }}</th>
+                            <th>{{ "app_subscription_billing_cycle"|trans }}</th>
+                            <th>{{ "app_subscription_next_payment"|trans }}</th>
+                            <th>{{ "app_payment_method"|trans }}</th>
+                            <th>{{ "app_status"|trans }}</th>
+                            <th>{{ "app_actions"|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -106,13 +105,13 @@
                                     <div class="text-xs opacity-70">
                                         {% set days_until = (subscription.nextPaymentDate|date('U') - "now"|date('U')) / 86400 %}
                                         {% if days_until < 0 %}
-                                            <span class="text-error">Overdue</span>
+                                            <span class="text-error">{{ "app_overdue"|trans }}</span>
                                         {% elseif days_until < 1 %}
-                                            Today
+                                            {{ "app_today"|trans }}
                                         {% elseif days_until < 2 %}
-                                            Tomorrow
+                                            {{ "app_tomorrow"|trans }}
                                         {% else %}
-                                            in {{ days_until|round }} days
+                                            {{ "app_in"|trans }} {{ days_until|round }} {{ "app_days"|trans }}
                                         {% endif %}
                                     </div>
                                 </td>
@@ -121,27 +120,27 @@
                                 </td>
                                 <td>
                                     {% if subscription.isActive %}
-                                        <span class="badge badge-success">Active</span>
+                                        <span class="badge badge-success">{{ "app_active"|trans }}</span>
                                     {% else %}
-                                        <span class="badge">Inactive</span>
+                                        <span class="badge">{{ "app_inactive"|trans }}</span>
                                     {% endif %}
 
                                     {% if subscription.autoRenewal %}
-                                        <span class="badge badge-info">Auto-renews</span>
+                                        <span class="badge badge-info">{{ "app_subscription_auto_renews"|trans }}</span>
                                     {% endif %}
                                 </td>
                                 <td>
                                     <div class="join">
                                         <a href="{{ path('app_subscription_edit', {'id': subscription.id}) }}"
-                                           class="btn btn-sm btn-ghost join-item">Edit</a>
+                                           class="btn btn-sm btn-ghost join-item">{{ "app_edit"|trans }}</a>
                                         <form method="post"
                                               action="{{ path('app_subscription_delete', {'id': subscription.id}) }}"
                                               class="inline"
-                                              onsubmit="return confirm('Are you sure you want to delete this subscription?');">
+                                              onsubmit="return confirm({{ "app_subscription_confirm_delete"|trans }});">
                                             <input type="hidden" name="_token"
                                                    value="{{ csrf_token('delete' ~ subscription.id) }}">
                                             <button type="submit" class="btn btn-sm btn-ghost text-error join-item">
-                                                Delete
+                                                {{ "app_delete"|trans }}
                                             </button>
                                         </form>
                                     </div>

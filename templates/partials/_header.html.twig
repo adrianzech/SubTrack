@@ -1,16 +1,16 @@
 <header>
     <nav class="navbar bg-neutral text-neutral-content shadow-sm">
         <div class="flex-1">
-            <a href="{{ path('app_subscription_index') }}" class="btn btn-ghost text-xl">SubTrack</a>
+            <a href="{{ path('app_subscription_index') }}" class="btn btn-ghost text-xl">{{ "app_name"|trans }}</a>
         </div>
         <div class="flex-none">
             <ul class="menu menu-horizontal px-1">
                 {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li>
-                        <a href="{{ path('app_login') }}">Login</a>
+                        <a href="{{ path('app_login') }}">{{ "app_login"|trans }}</a>
                     </li>
                     <li>
-                        <a href="{{ path('app_register') }}">Sign Up</a>
+                        <a href="{{ path('app_register') }}">{{ "app_register"|trans }}</a>
                     </li>
                 {% endif %}
             </ul>
@@ -30,10 +30,10 @@
                     <ul tabindex="0"
                         class="menu menu-sm dropdown-content bg-neutral text-neutral-content rounded-box z-1 mt-3 w-52 p-2 shadow">
                         <li>
-                            <a href="{{ path('app_settings_index') }}">Settings</a>
+                            <a href="{{ path('app_settings_index') }}">{{ "app_settings"|trans }}</a>
                         </li>
                         <li>
-                            <a href="{{ path('app_logout') }}">Logout</a>
+                            <a href="{{ path('app_logout') }}">{{ "app_logout"|trans }}</a>
                         </li>
                     </ul>
                 </div>

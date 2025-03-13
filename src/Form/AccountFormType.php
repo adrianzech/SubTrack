@@ -23,7 +23,7 @@ class AccountFormType extends AbstractType
                 'empty_data'  => '',
                 'required'    => true,
                 'constraints' => [
-                    new Email(['message' => 'Please enter a valid email']),
+                    new Email(['message' => 'app_settings_enter_valid_email']),
                 ],
             ])
             ->add('currentPassword', PasswordType::class, [
@@ -32,7 +32,7 @@ class AccountFormType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min'        => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'app_settings_password_min_length',
                     ]),
                 ],
             ])
@@ -41,18 +41,18 @@ class AccountFormType extends AbstractType
                 'mapped'          => false,
                 'required'        => false,
                 'first_options'   => [
-                    'label' => 'New Password',
+                    'label' => 'app_settings_new_password',
                     'attr'  => ['autocomplete' => 'new-password'],
                 ],
                 'second_options'  => [
-                    'label' => 'Confirm New Password',
+                    'label' => 'app_settings_confirm_new_password',
                     'attr'  => ['autocomplete' => 'new-password'],
                 ],
-                'invalid_message' => 'The password fields must match.',
+                'invalid_message' => 'app_settings_password_mismatch',
                 'constraints'     => [
                     new Length([
                         'min'        => 8,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'app_settings_password_min_length',
                     ]),
                 ],
             ]);
@@ -61,8 +61,9 @@ class AccountFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class'        => User::class,
-            'validation_groups' => ['Default'],
+            'data_class'         => User::class,
+            'validation_groups'  => ['Default'],
+            'translation_domain' => 'forms',
         ]);
     }
 }

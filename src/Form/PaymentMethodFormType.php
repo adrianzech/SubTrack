@@ -17,7 +17,7 @@ class PaymentMethodFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'PayPal, Credit Card, etc.'
+                    'placeholder' => 'app_payment_method_placeholder'
                 ],
             ]);
     }

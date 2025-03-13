@@ -17,7 +17,7 @@ class CategoryFormType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'attr' => [
-                    'placeholder' => 'Entertainment, Software, etc.'
+                    'placeholder' => 'app_category_placeholder'
                 ],
             ]);
     }

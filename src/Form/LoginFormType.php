@@ -17,20 +17,20 @@ class LoginFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
-                'label' => 'Email',
+                'label' => 'app_email',
                 'attr'  => [
-                    'placeholder' => 'your@email.com',
+                    'placeholder' => 'app_email_placeholder',
                     'autofocus'   => true,
                 ],
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Password',
+                'label' => 'app_password',
                 'attr'  => [
-                    'placeholder' => '••••••••',
+                    'placeholder' => 'app_password_placeholder',
                 ],
             ])
             ->add('rememberMe', CheckboxType::class, [
-                'label'    => 'Remember me',
+                'label'    => 'app_login_remember_me',
                 'required' => false,
             ]);
     }
