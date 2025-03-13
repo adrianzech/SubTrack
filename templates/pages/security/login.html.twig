@@ -13,47 +13,49 @@
 
             {% if app.user %}
                 <div class="mb-3 text-center">
-                    You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}"
-                                                                           class="link link-primary">Logout</a>
+                    <div class="mb-2">You are already logged in as {{ app.user.userIdentifier }}.</div>
+                    <a href="{{ path('app_logout') }}" class="btn btn-primary">Logout</a>
                 </div>
+            {% else %}
+
+                <!-- Login Form -->
+                {{ form_start(loginForm) }}
+                <!-- Email Input -->
+                <div class="form-control w-full mb-4">
+                    {{ form_label(loginForm.email, 'Email', {'label_attr': {'class': 'label-text'}}) }}
+                    {{ form_widget(loginForm.email, {'attr': {'class': 'input input-bordered w-full', 'value': last_username}}) }}
+                    {{ form_errors(loginForm.email) }}
+                </div>
+
+                <!-- Password Input -->
+                <div class="form-control w-full mb-6">
+                    {{ form_label(loginForm.password, 'Password', {'label_attr': {'class': 'label-text'}}) }}
+                    {{ form_widget(loginForm.password, {'attr': {'class': 'input input-bordered w-full'}}) }}
+                    {{ form_errors(loginForm.password) }}
+                </div>
+
+                <!-- Remember Me Checkbox -->
+                <div class="form-control mb-6">
+                    <label class="cursor-pointer label justify-start">
+                        {{ form_widget(loginForm.rememberMe, {'attr': {'class': 'checkbox checkbox-primary mr-2'}}) }}
+                        <span class="label-text">Remember me</span>
+                    </label>
+                    {{ form_errors(loginForm.rememberMe) }}
+                </div>
+
+                <!-- Submit Button -->
+                <div class="card-actions justify-end">
+                    <button type="submit" class="btn btn-primary w-full">Login</button>
+                </div>
+
+                <!-- Register Link -->
+                <div class="text-center mt-4">
+                    <p>Don't have an account? <a href="{{ path('app_register') }}"
+                                                 class="link link-primary">Register</a></p>
+                </div>
+                {{ form_end(loginForm) }}
+
             {% endif %}
-
-            <!-- Login Form -->
-            {{ form_start(loginForm) }}
-            <!-- Email Input -->
-            <div class="form-control w-full mb-4">
-                {{ form_label(loginForm.email, 'Email', {'label_attr': {'class': 'label-text'}}) }}
-                {{ form_widget(loginForm.email, {'attr': {'class': 'input input-bordered w-full', 'value': last_username}}) }}
-                {{ form_errors(loginForm.email) }}
-            </div>
-
-            <!-- Password Input -->
-            <div class="form-control w-full mb-6">
-                {{ form_label(loginForm.password, 'Password', {'label_attr': {'class': 'label-text'}}) }}
-                {{ form_widget(loginForm.password, {'attr': {'class': 'input input-bordered w-full'}}) }}
-                {{ form_errors(loginForm.password) }}
-            </div>
-
-            <!-- Remember Me Checkbox -->
-            <div class="form-control mb-6">
-                <label class="cursor-pointer label justify-start">
-                    {{ form_widget(loginForm.rememberMe, {'attr': {'class': 'checkbox checkbox-primary mr-2'}}) }}
-                    <span class="label-text">Remember me</span>
-                </label>
-                {{ form_errors(loginForm.rememberMe) }}
-            </div>
-
-            <!-- Submit Button -->
-            <div class="card-actions justify-end">
-                <button type="submit" class="btn btn-primary w-full">Login</button>
-            </div>
-
-            <!-- Register Link -->
-            <div class="text-center mt-4">
-                <p>Don't have an account? <a href="{{ path('app_register') }}"
-                                             class="link link-primary">Register</a></p>
-            </div>
-            {{ form_end(loginForm) }}
         </div>
     </div>
 {% endblock %}
