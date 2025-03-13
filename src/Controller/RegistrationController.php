@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Entity\User;
@@ -32,7 +34,7 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_subscription_index');
         }
 
         return $this->render('pages/register.html.twig', [

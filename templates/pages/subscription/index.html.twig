@@ -1,0 +1,139 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Subscriptions{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto py-8 px-4">
+        <!-- Header with Add Button -->
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-3xl font-bold">Subscriptions</h1>
+            <a href="{{ path('app_subscription_new') }}" class="btn btn-primary">
+                Add Subscription
+            </a>
+        </div>
+
+        <!-- Flash Messages -->
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert {{ label == 'success' ? 'alert-success' : 'alert-error' }} mb-6">
+                    <div>
+                        {% if label == 'success' %}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        {% else %}
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        {% endif %}
+                        <span>{{ message }}</span>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- Stats -->
+        <div class="flex justify-center mb-6">
+            <div class="stats shadow">
+                <div class="stat">
+                    <div class="stat-title">Subscriptions</div>
+                    <div class="stat-value text-primary">21</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Monthly Cost</div>
+                    <div class="stat-value text-primary">256,33€</div>
+                </div>
+
+                <div class="stat">
+                    <div class="stat-title">Yearly Cost</div>
+                    <div class="stat-value text-primary">1,200€</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Subscriptions Table -->
+        <div class="card bg-base-100 shadow-xl">
+            {% if subscriptions is empty %}
+                <div class="card-body items-center text-center">
+                    <p class="text-base-content opacity-70">No subscriptions found. Get started by adding your first subscription.</p>
+                    <div class="card-actions mt-6">
+                        <a href="{{ path('app_subscription_new') }}" class="btn btn-primary">
+                            Add Subscription
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra">
+                        <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Amount</th>
+                            <th>Billing</th>
+                            <th>Next Payment</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for subscription in subscriptions %}
+                            <tr>
+                                <td>
+                                    <div class="font-medium">{{ subscription.name }}</div>
+                                    <div class="text-sm opacity-70">{{ subscription.paymentMethod }}</div>
+                                </td>
+                                <td>{{ subscription.category }}</td>
+                                <td>${{ subscription.amount|number_format(2) }}</td>
+                                <td>
+                                    {% if subscription.billingOffset > 1 %}
+                                        Every {{ subscription.billingOffset }} {{ subscription.billingCycle.value }}s
+                                    {% else %}
+                                        {{ subscription.billingCycle.value|capitalize }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div>{{ subscription.nextPaymentDate|date('M d, Y') }}</div>
+                                    <div class="text-xs opacity-70">
+                                        {% set days_until = (subscription.nextPaymentDate|date('U') - "now"|date('U')) / 86400 %}
+                                        {% if days_until < 0 %}
+                                            <span class="text-error">Overdue</span>
+                                        {% elseif days_until < 1 %}
+                                            Today
+                                        {% elseif days_until < 2 %}
+                                            Tomorrow
+                                        {% else %}
+                                            in {{ days_until|round }} days
+                                        {% endif %}
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if subscription.isActive %}
+                                        <span class="badge badge-success">Active</span>
+                                    {% else %}
+                                        <span class="badge">Inactive</span>
+                                    {% endif %}
+
+                                    {% if subscription.autoRenewal %}
+                                        <span class="badge badge-info">Auto-renews</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="join">
+                                        <a href="#" class="btn btn-sm btn-ghost join-item">Edit</a>
+                                        <a href="#" class="btn btn-sm btn-ghost text-error join-item">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
