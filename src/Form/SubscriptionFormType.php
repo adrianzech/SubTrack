@@ -6,6 +6,7 @@ namespace App\Form;
 
 use App\Entity\BillingCycleEnum;
 use App\Entity\Category;
+use App\Entity\PaymentMethod;
 use App\Entity\Subscription;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -58,11 +59,11 @@ class SubscriptionFormType extends AbstractType
                 'required' => false,
                 'help'     => 'Leave empty for subscriptions with no end date',
             ])
-            ->add('paymentMethod', TextType::class, [
-                'required' => false,
-                'attr'     => [
-                    'placeholder' => 'Credit Card, PayPal, etc.'
-                ],
+            ->add('paymentMethod', EntityType::class, [
+                'class'        => PaymentMethod::class,
+                'choice_label' => 'name',
+                'placeholder'  => 'Select a payment method',
+                'required'     => true,
             ])
             ->add('autoRenewal', CheckboxType::class, [
                 'required' => false,

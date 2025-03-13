@@ -31,7 +31,7 @@ class Subscription
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotBlank]
     #[Assert\Positive]
-    private float $amount;
+    private string $amount;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['default' => 1])]
     #[Assert\Positive]
@@ -50,8 +50,9 @@ class Subscription
     #[ORM\Column(type: Types::DATE_IMMUTABLE)]
     private DateTimeImmutable $nextPaymentDate;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $paymentMethod = null;
+    #[ORM\ManyToOne(targetEntity: PaymentMethod::class, inversedBy: 'items')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?PaymentMethod $paymentMethod = null;
 
     #[ORM\Column(options: ['default' => true])]
     private bool $autoRenewal = true;
@@ -64,7 +65,7 @@ class Subscription
 
     public function __construct(
         string $name,
-        float $amount,
+        string $amount,
         BillingCycleEnum $billingCycle,
         DateTimeImmutable $startDate,
         DateTimeImmutable $nextPaymentDate,
@@ -115,12 +116,12 @@ class Subscription
         return $this;
     }
 
-    public function getAmount(): float
+    public function getAmount(): string
     {
         return $this->amount;
     }
 
-    public function setAmount(float $amount): self
+    public function setAmount(string $amount): self
     {
         $this->amount = $amount;
         return $this;
@@ -181,12 +182,12 @@ class Subscription
         return $this;
     }
 
-    public function getPaymentMethod(): ?string
+    public function getPaymentMethod(): ?PaymentMethod
     {
         return $this->paymentMethod;
     }
 
-    public function setPaymentMethod(?string $paymentMethod): self
+    public function setPaymentMethod(?PaymentMethod $paymentMethod): self
     {
         $this->paymentMethod = $paymentMethod;
         return $this;
