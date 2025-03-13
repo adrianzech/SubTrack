@@ -36,7 +36,7 @@ class SubscriptionFormType extends AbstractType
                 'required'     => false,
             ])
             ->add('amount', MoneyType::class, [
-                'currency' => 'app_currency_short',
+                'currency' => false,
             ])
             ->add('billingOffset', NumberType::class, [
                 'attr' => [
