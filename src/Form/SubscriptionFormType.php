@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Form;
 
 use App\Entity\BillingCycleEnum;
+use App\Entity\Category;
 use App\Entity\Subscription;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -26,11 +28,11 @@ class SubscriptionFormType extends AbstractType
                     'placeholder' => 'Netflix, Spotify, etc.'
                 ],
             ])
-            ->add('category', TextType::class, [
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Select a category',
                 'required' => false,
-                'attr' => [
-                    'placeholder' => 'Entertainment, Utilities, etc.'
-                ],
             ])
             ->add('amount', MoneyType::class, [
                 'currency' => 'EUR',

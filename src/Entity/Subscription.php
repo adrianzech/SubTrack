@@ -24,8 +24,9 @@ class Subscription
     #[Assert\Length(min: 2, max: 255)]
     private string $name;
 
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $category = null;
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'items')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Category $category = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     #[Assert\NotBlank]
@@ -103,12 +104,12 @@ class Subscription
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?string $category): self
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
         return $this;
