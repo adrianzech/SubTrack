@@ -58,6 +58,7 @@ app_category_new_tile: 'Create a new category'
 app_category_not_found: 'No categories found. Get started by adding your first category.'
 app_category_placeholder: 'Entertainment, Software, etc.'
 app_category_select: 'Select a category'
+app_category_name: 'Category name'
 
 # Payment method related
 app_payment_method: 'Payment method'
@@ -69,6 +70,7 @@ app_payment_method_new_tile: 'Create a new payment method'
 app_payment_method_not_found: 'No payment methods found. Get started by adding your first payment method.'
 app_payment_method_placeholder: 'PayPal, Credit Card, etc.'
 app_payment_methods: 'Payment methods'
+app_payment_method_name: "Payment method name"
 
 # Subscription related
 app_subscription: 'Subscription'

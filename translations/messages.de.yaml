@@ -58,6 +58,7 @@ app_category_new_tile: 'Neue Kategorie erstellen'
 app_category_not_found: 'Keine Kategorien gefunden. Beginnen Sie, indem Sie Ihre erste Kategorie hinzufügen.'
 app_category_placeholder: 'Unterhaltung, Software, usw.'
 app_category_select: 'Kategorie auswählen'
+app_category_name: 'Kategorie Name'
 
 # Zahlungsmethoden
 app_payment_method: 'Zahlungsmethode'
@@ -69,6 +70,7 @@ app_payment_method_new_tile: 'Neue Zahlungsmethode erstellen'
 app_payment_method_not_found: 'Keine Zahlungsmethoden gefunden. Beginnen Sie, indem Sie Ihre erste Zahlungsmethode hinzufügen.'
 app_payment_method_placeholder: 'PayPal, Kreditkarte, usw.'
 app_payment_methods: 'Zahlungsmethoden'
+app_payment_method_name: 'Zahlungsmethode Name'
 
 # Abonnements
 app_subscription: 'Abonnement'
