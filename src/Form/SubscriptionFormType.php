@@ -61,7 +61,7 @@ class SubscriptionFormType extends AbstractType
             ->add('paymentMethod', EntityType::class, [
                 'class'        => PaymentMethod::class,
                 'choice_label' => 'name',
-                'placeholder'  => 'app_category_select',
+                'placeholder'  => 'app_payment_method_select',
                 'required'     => true,
             ])
             ->add('autoRenewal', CheckboxType::class, [
