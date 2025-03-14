@@ -113,7 +113,7 @@ class SettingsController extends AbstractController
         ]);
     }
 
-    #[Route('/settings/category//new', name: 'app_settings_category_new', methods: ['GET', 'POST'])]
+    #[Route('/settings/category/new', name: 'app_settings_category_new', methods: ['GET', 'POST'])]
     public function newCategory(Request $request): Response
     {
         $category = new Category(
@@ -168,7 +168,7 @@ class SettingsController extends AbstractController
         ]);
     }
 
-    #[Route('/payment_method/category//new', name: 'app_settings_payment_method_new', methods: ['GET', 'POST'])]
+    #[Route('/settings/payment_method/category/new', name: 'app_settings_payment_method_new', methods: ['GET', 'POST'])]
     public function newPaymentMethod(Request $request): Response
     {
         $paymentMethod = new PaymentMethod(
@@ -191,7 +191,7 @@ class SettingsController extends AbstractController
         ]);
     }
 
-    #[Route('/payment_method/category/{id}/delete', name: 'app_settings_payment_method_delete', methods: ['POST'])]
+    #[Route('/settings/payment_method/category/{id}/delete', name: 'app_settings_payment_method_delete', methods: ['POST'])]
     public function deletePaymentMethod(Request $request, PaymentMethod $paymentMethod): Response
     {
         // Check CSRF token for security
@@ -204,7 +204,7 @@ class SettingsController extends AbstractController
         return $this->redirectToRoute('app_settings_index');
     }
 
-    #[Route('/payment_method/category/{id}/edit', name: 'app_settings_payment_method_edit', methods: ['GET', 'POST'])]
+    #[Route('/settings/payment_method/category/{id}/edit', name: 'app_settings_payment_method_edit', methods: ['GET', 'POST'])]
     public function editPaymentMethod(Request $request, PaymentMethod $paymentMethod): Response
     {
         $form = $this->createForm(PaymentMethodFormType::class, $paymentMethod);
@@ -221,5 +221,21 @@ class SettingsController extends AbstractController
             'payment_method' => $paymentMethod,
             'form'           => $form->createView(),
         ]);
+    }
+
+    #[Route('/settings/change-locale/{locale}', name: 'app_settings_change_locale')]
+    public function changeLocale(string $locale, Request $request): Response
+    {
+        // Validate locale is supported
+        if (!in_array($locale, ['en', 'de'])) {
+            $locale = 'en'; // Default to English if not supported
+        }
+
+        // Set locale in session
+        $request->getSession()->set('_locale', $locale);
+
+        // Redirect back to the referring page or homepage
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer ?: $this->generateUrl('app_settings_index'));
     }
 }

@@ -23,6 +23,10 @@ app_account: 'Account'
 app_settings: 'Settings'
 app_in: 'in'
 app_days: 'days'
+app_general: 'General'
+app_language: 'Language'
+app_language_en: 'English'
+app_language_de: 'German'
 
 # Time Indicators
 app_today: 'Today'
