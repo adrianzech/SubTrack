@@ -136,7 +136,7 @@
                                         <form method="post"
                                               action="{{ path('app_subscription_delete', {'id': subscription.id}) }}"
                                               class="inline"
-                                              onsubmit="return confirm({{ "app_subscription_confirm_delete"|trans }});">
+                                              onsubmit="return confirm('{{ "app_subscription_confirm_delete"|trans|e('js') }}');">
                                             <input type="hidden" name="_token"
                                                    value="{{ csrf_token('delete' ~ subscription.id) }}">
                                             <button type="submit" class="btn btn-sm btn-ghost text-error join-item">

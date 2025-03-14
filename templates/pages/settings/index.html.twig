@@ -124,7 +124,7 @@
                                                 <form method="post"
                                                       action="{{ path('app_settings_category_delete', {'id': category.id}) }}"
                                                       class="inline"
-                                                      onsubmit="return confirm({{ "app_category_confirm_delete"|trans }});">
+                                                      onsubmit="return confirm('{{ "app_category_confirm_delete"|trans|e('js') }}');">
                                                     <input type="hidden" name="_token"
                                                            value="{{ csrf_token('delete' ~ category.id) }}">
                                                     <button type="submit"
@@ -186,7 +186,7 @@
                                                 <form method="post"
                                                       action="{{ path('app_settings_payment_method_delete', {'id': paymentMethod.id}) }}"
                                                       class="inline"
-                                                      onsubmit="return confirm({{ "app_payment_method_confirm_delete"|trans }});">
+                                                      onsubmit="return confirm('{{ "app_payment_method_confirm_delete"|trans|e('js') }}');">
                                                     <input type="hidden" name="_token"
                                                            value="{{ csrf_token('delete' ~ paymentMethod.id) }}">
                                                     <button type="submit"
