@@ -7,7 +7,9 @@
             <ul class="menu menu-horizontal px-1">
                 <label class="swap swap-rotate">
                     <!-- this hidden checkbox controls the state -->
-                    <input type="checkbox" id="theme-toggle" class="theme-controller" value="dark"/>
+                    <input type="checkbox" id="theme-toggle"
+                           class="theme-controller" {{ stimulus_target('theme', 'toggle') }}
+                    {{ stimulus_action('theme', 'toggle') }}"/>
 
                     <!-- sun icon -->
                     <svg
