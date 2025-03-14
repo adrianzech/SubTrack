@@ -222,14 +222,24 @@ class Subscription
 
     public function calculateNextPaymentDate(): DateTimeImmutable
     {
-        $nextDate = $this->nextPaymentDate;
+        $today = new DateTimeImmutable();
+        $startDate = $this->startDate;
+        $nextDate = clone $startDate;
 
-        return match ($this->billingCycle) {
-            BillingCycleEnum::DAILY => $nextDate->modify("+{$this->billingOffset} day"),
-            BillingCycleEnum::WEEKLY => $nextDate->modify("+{$this->billingOffset} week"),
-            BillingCycleEnum::MONTHLY => $nextDate->modify("+{$this->billingOffset} month"),
-            BillingCycleEnum::YEARLY => $nextDate->modify("+{$this->billingOffset} year"),
+        // Calculate how many billing cycles have passed since start date
+        $modifyString = match ($this->billingCycle) {
+            BillingCycleEnum::DAILY => "+{$this->billingOffset} day",
+            BillingCycleEnum::WEEKLY => "+{$this->billingOffset} week",
+            BillingCycleEnum::MONTHLY => "+{$this->billingOffset} month",
+            BillingCycleEnum::YEARLY => "+{$this->billingOffset} year",
         };
+
+        // Find the next payment date after today
+        while ($nextDate <= $today) {
+            $nextDate = $nextDate->modify($modifyString);
+        }
+
+        return $nextDate;
     }
 
     public function isActive(): bool

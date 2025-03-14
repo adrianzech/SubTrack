@@ -132,7 +132,7 @@
                                 <td>
                                     <div class="join">
                                         <a href="{{ path('app_subscription_edit', {'id': subscription.id}) }}"
-                                           class="btn btn-sm btn-ghost join-item">{{ "app_edit"|trans }}</a>
+                                           class="btn btn-sm btn-ghost join-item" data-turbo="false">{{ "app_edit"|trans }}</a>
                                         <form method="post"
                                               action="{{ path('app_subscription_delete', {'id': subscription.id}) }}"
                                               class="inline"

@@ -77,6 +77,7 @@ class SubscriptionController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $subscription->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($subscription);
             $this->entityManager->flush();
+
             $this->addFlash('success', 'app_subscription_successfully_deleted');
         }
 
@@ -90,10 +91,10 @@ class SubscriptionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Update next payment date if billing parameters changed
+            // Recalculate the next payment date based on start date and billing parameters
             $subscription->setNextPaymentDate($subscription->calculateNextPaymentDate());
-
             $this->entityManager->flush();
+
             $this->addFlash('success', 'app_subscription_successfully_updated');
 
             return $this->redirectToRoute('app_subscription_index');
