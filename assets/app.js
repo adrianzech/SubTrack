@@ -7,4 +7,26 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+document.addEventListener('DOMContentLoaded', function () {
+    const themeToggle = document.getElementById('theme-toggle');
+
+    // Get the initial theme from localStorage or default to 'light'
+    const savedTheme = localStorage.getItem('theme') || 'light';
+
+    // Update checkbox state based on the current theme
+    if (themeToggle) {
+        themeToggle.checked = savedTheme === 'dark';
+
+        // Add event listener to toggle theme
+        themeToggle.addEventListener('change', function () {
+            const newTheme = this.checked ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+
+            // Dispatch an event so other components can react to the theme change
+            document.dispatchEvent(new CustomEvent('themeChanged', {
+                detail: {theme: newTheme}
+            }));
+        });
+    }
+});
