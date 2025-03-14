@@ -5,4 +5,6 @@ SubTrack is a personal subscription tracker designed to help you manage and moni
 This project serves as a learning experience for Symfony and Tailwind CSS while building a practical and useful application.
 
 # Screenshots
-![SubTrack Screenshot](docs/images/subtrack.png)
+![SubTrack Screenshot](docs/images/subtrack-light.png)
+
+![SubTrack Screenshot](docs/images/subtrack-dark.png)
