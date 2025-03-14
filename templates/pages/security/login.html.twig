@@ -23,7 +23,7 @@
                 <!-- Email Input -->
                 <div class="form-control w-full mb-4">
                     {{ form_label(loginForm.email, 'app_email'|trans, {'label_attr': {'class': 'label-text'}}) }}
-                    {{ form_widget(loginForm.email, {'attr': {'class': 'input input-bordered w-full', 'value': last_username}}) }}
+                    {{ form_widget(loginForm.email, {'attr': {'class': 'input input-bordered w-full', 'value': last_username, 'required': true, 'autofocus': true}}) }}
                     {{ form_errors(loginForm.email) }}
                 </div>
 
