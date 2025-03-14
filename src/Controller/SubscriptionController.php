@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class SubscriptionController extends AbstractController
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager,
     ) {}
 
     #[Route('/', name: 'app_subscription_index')]
@@ -61,7 +61,7 @@ class SubscriptionController extends AbstractController
             $this->entityManager->persist($subscription);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Subscription created successfully.');
+            $this->addFlash('success', 'app_subscription_successfully_created');
             return $this->redirectToRoute('app_subscription_index');
         }
 
@@ -77,7 +77,7 @@ class SubscriptionController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $subscription->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($subscription);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Subscription was successfully deleted.');
+            $this->addFlash('success', 'app_subscription_successfully_deleted');
         }
 
         return $this->redirectToRoute('app_subscription_index');
@@ -94,7 +94,7 @@ class SubscriptionController extends AbstractController
             $subscription->setNextPaymentDate($subscription->calculateNextPaymentDate());
 
             $this->entityManager->flush();
-            $this->addFlash('success', 'Subscription was successfully updated.');
+            $this->addFlash('success', 'app_subscription_successfully_updated');
 
             return $this->redirectToRoute('app_subscription_index');
         }

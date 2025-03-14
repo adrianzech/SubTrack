@@ -61,7 +61,7 @@ class SettingsController extends AbstractController
             if (!empty($currentPassword) && !empty($plainPassword)) {
                 // Verify current password
                 if (!$this->passwordHasher->isPasswordValid($user, $currentPassword)) {
-                    $this->addFlash('error', 'Current password is incorrect');
+                    $this->addFlash('error', 'app_settings_current_password_incorrect');
                     return $this->redirectToRoute('app_settings_index');
                 }
 
@@ -74,11 +74,11 @@ class SettingsController extends AbstractController
                 $passwordChanged = true;
             } elseif (!empty($currentPassword) && empty($plainPassword)) {
                 // Current password provided but no new password
-                $this->addFlash('error', 'Please enter a new password');
+                $this->addFlash('error', 'app_settings_enter_password');
                 return $this->redirectToRoute('app_settings_index');
             } elseif (empty($currentPassword) && !empty($plainPassword)) {
                 // New password provided but no current password
-                $this->addFlash('error', 'Please enter your current password to confirm the change');
+                $this->addFlash('error', 'app_settings_enter_password_to_confirm');
                 return $this->redirectToRoute('app_settings_index');
             }
 
@@ -87,14 +87,14 @@ class SettingsController extends AbstractController
                 $this->entityManager->flush();
 
                 if ($emailChanged) {
-                    $this->addFlash('success', 'Email updated successfully');
+                    $this->addFlash('success', 'app_settings_password_successfully_updated');
                 }
 
                 if ($passwordChanged) {
-                    $this->addFlash('success', 'Password updated successfully');
+                    $this->addFlash('success', '');
                 }
             } else if ($form->isSubmitted()) {
-                $this->addFlash('info', 'No changes were made');
+                $this->addFlash('info', 'app_settings_no_changes');
             }
 
             return $this->redirectToRoute('app_settings_index');
@@ -127,7 +127,7 @@ class SettingsController extends AbstractController
             $this->entityManager->persist($category);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Category created successfully.');
+            $this->addFlash('success', 'app_category_successfully_created');
             return $this->redirectToRoute('app_settings_index');
         }
 
@@ -143,7 +143,7 @@ class SettingsController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $category->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($category);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Category was successfully deleted.');
+            $this->addFlash('success', 'app_category_successfully_deleted');
         }
 
         return $this->redirectToRoute('app_settings_index');
@@ -157,7 +157,7 @@ class SettingsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
-            $this->addFlash('success', 'Category was successfully updated.');
+            $this->addFlash('success', 'app_category_successfully_updated');
 
             return $this->redirectToRoute('app_settings_index');
         }
@@ -182,7 +182,7 @@ class SettingsController extends AbstractController
             $this->entityManager->persist($paymentMethod);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Payment method created successfully.');
+            $this->addFlash('success', 'app_payment_method_successfully_created');
             return $this->redirectToRoute('app_settings_index');
         }
 
@@ -198,7 +198,7 @@ class SettingsController extends AbstractController
         if ($this->isCsrfTokenValid('delete' . $paymentMethod->getId(), $request->request->get('_token'))) {
             $this->entityManager->remove($paymentMethod);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Payment method was successfully deleted.');
+            $this->addFlash('success', 'app_payment_method_successfully_deleted');
         }
 
         return $this->redirectToRoute('app_settings_index');
@@ -212,7 +212,7 @@ class SettingsController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
-            $this->addFlash('success', 'Payment method was successfully updated.');
+            $this->addFlash('success', 'app_payment_method_successfully_updated');
 
             return $this->redirectToRoute('app_settings_index');
         }
