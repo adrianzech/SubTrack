@@ -46,12 +46,12 @@
 
                 <div class="stat">
                     <div class="stat-title">{{ "app_subscription_monthly_cost"|trans }}</div>
-                    <div class="stat-value text-primary">{{ monthly_cost }}€</div>
+                    <div class="stat-value text-primary">{{ monthly_cost|round(2) }}€</div>
                 </div>
 
                 <div class="stat">
                     <div class="stat-title">{{ "app_subscription_yearly_cost"|trans }}</div>
-                    <div class="stat-value text-primary">{{ yearly_cost }}€</div>
+                    <div class="stat-value text-primary">{{ yearly_cost|round(2) }}€</div>
                 </div>
             </div>
         </div>

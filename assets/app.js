@@ -7,7 +7,12 @@ import './bootstrap.js';
  */
 import './styles/app.css';
 
-document.addEventListener('DOMContentLoaded', function () {
+(function () {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
 
     // Get the initial theme from localStorage or default to 'light'
@@ -18,14 +23,14 @@ document.addEventListener('DOMContentLoaded', function () {
         themeToggle.checked = savedTheme === 'dark';
 
         // Add event listener to toggle theme
-        themeToggle.addEventListener('change', function () {
+        themeToggle.addEventListener('change', function() {
             const newTheme = this.checked ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
 
             // Dispatch an event so other components can react to the theme change
             document.dispatchEvent(new CustomEvent('themeChanged', {
-                detail: {theme: newTheme}
+                detail: { theme: newTheme }
             }));
         });
     }
