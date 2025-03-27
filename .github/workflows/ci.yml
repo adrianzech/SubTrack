@@ -6,50 +6,89 @@ on:
   pull_request:
     branches: [ 'main' ]
 
+
+x-shared-steps:
+  - &checkout_step
+    name: Checkout repository code
+    uses: actions/checkout@v4
+
+  - &setup_php_step
+    name: Setup PHP
+    uses: shivammathur/setup-php@v2
+    with:
+      php-version: '8.4'
+      extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, pcre, session, simplexml, tokenizer, zip
+      tools: composer:v2
+    env:
+      COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  - &cache_composer_step
+    name: Cache Composer packages
+    id: composer-cache
+    uses: actions/cache@v4
+    with:
+      path: vendor
+      key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+      restore-keys: |
+        ${{ runner.os }}-php-
+
+  - &install_composer_step
+    name: Install Composer dependencies
+    if: steps.composer-cache.outputs.cache-hit != 'true'
+    run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
 jobs:
-  code-quality:
-    name: Code Quality Checks
+  phpstan:
+    name: Run PHPStan
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository code
-        uses: actions/checkout@v4
-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.4'
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, pcre, session, simplexml, tokenizer, zip
-          tools: composer:v2
-        env:
-          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
-        with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
-
-      - name: Install Composer dependencies
-        if: steps.composer-cache.outputs.cache-hit != 'true'
-        run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
-
+      - *checkout_step
+      - *setup_php_step
+      - *cache_composer_step
+      - *install_composer_step
       - name: Run PHPStan
         run: composer phpstan
 
-      - name: Run PHP-CS-Fixer
-        run: composer cs-check
-        env:
-          PHP_CS_FIXER_IGNORE_ENV: 1
+  php-cs-fixer:
+    name: Run PHP-CS-Fixer
+    runs-on: ubuntu-latest
+    steps:
+      - *checkout_step
+      - *setup_php_step
+      - *cache_composer_step
+      - *install_composer_step
+      - name: Run PHP-CS-Fixer (Dry Run)
+        run: PHP_CS_FIXER_IGNORE_ENV=1 composer cs-check
 
+  phpmd:
+    name: Run PHPMD
+    runs-on: ubuntu-latest
+    steps:
+      - *checkout_step
+      - *setup_php_step
+      - *cache_composer_step
+      - *install_composer_step
       - name: Run PHPMD
         run: composer phpmd
 
+  twig-lint:
+    name: Lint Twig Templates
+    runs-on: ubuntu-latest
+    steps:
+      - *checkout_step
+      - *setup_php_step
+      - *cache_composer_step
+      - *install_composer_step
       - name: Lint Twig Templates
         run: php bin/console lint:twig templates/
 
-      - name: Check Symfony Security Advisories
+  security-check:
+    name: Check Security Advisories
+    runs-on: ubuntu-latest
+    steps:
+      - *checkout_step
+      - *setup_php_step
+      - *cache_composer_step
+      - *install_composer_step
+      - name: Check Symfony Security
         run: php bin/console security:check
