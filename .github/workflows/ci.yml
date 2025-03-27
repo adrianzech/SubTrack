@@ -1,0 +1,55 @@
+name: PHP CI Checks
+
+on:
+  push:
+    branches: [ 'main' ]
+  pull_request:
+    branches: [ 'main' ]
+
+jobs:
+  code-quality:
+    name: Code Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, pcre, session, simplexml, tokenizer, zip
+          tools: composer:v2
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Install Composer dependencies
+        if: steps.composer-cache.outputs.cache-hit != 'true'
+        run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+      - name: Run PHP-CS-Fixer
+        run: composer cs-check
+        env:
+          PHP_CS_FIXER_IGNORE_ENV: 1
+
+      - name: Run PHPMD
+        run: composer phpmd
+
+      - name: Lint Twig Templates
+        run: php bin/console lint:twig templates/
+
+      - name: Check Symfony Security Advisories
+        run: php bin/console security:check
