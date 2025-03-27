@@ -6,89 +6,58 @@ on:
   pull_request:
     branches: [ 'main' ]
 
-
-x-shared-steps:
-  - &checkout_step
-    name: Checkout repository code
-    uses: actions/checkout@v4
-
-  - &setup_php_step
-    name: Setup PHP
-    uses: shivammathur/setup-php@v2
-    with:
-      php-version: '8.4'
-      extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, dom, filter, gd, json, pcre, session, simplexml, tokenizer, zip
-      tools: composer:v2
-    env:
-      COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  - &cache_composer_step
-    name: Cache Composer packages
-    id: composer-cache
-    uses: actions/cache@v4
-    with:
-      path: vendor
-      key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-      restore-keys: |
-        ${{ runner.os }}-php-
-
-  - &install_composer_step
-    name: Install Composer dependencies
-    if: steps.composer-cache.outputs.cache-hit != 'true'
-    run: composer install --prefer-dist --no-progress --no-interaction --optimize-autoloader
-
 jobs:
   phpstan:
     name: Run PHPStan
     runs-on: ubuntu-latest
     steps:
-      - *checkout_step
-      - *setup_php_step
-      - *cache_composer_step
-      - *install_composer_step
+      - name: Setup Environment via Composite Action
+        uses: ./.github/actions/php-setup
+
       - name: Run PHPStan
         run: composer phpstan
+        shell: bash
 
   php-cs-fixer:
     name: Run PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
-      - *checkout_step
-      - *setup_php_step
-      - *cache_composer_step
-      - *install_composer_step
+      - name: Setup Environment via Composite Action
+        uses: ./.github/actions/php-setup
+
       - name: Run PHP-CS-Fixer (Dry Run)
         run: PHP_CS_FIXER_IGNORE_ENV=1 composer cs-check
+        shell: bash
 
   phpmd:
     name: Run PHPMD
     runs-on: ubuntu-latest
     steps:
-      - *checkout_step
-      - *setup_php_step
-      - *cache_composer_step
-      - *install_composer_step
+      - name: Setup Environment via Composite Action
+        uses: ./.github/actions/php-setup
+
       - name: Run PHPMD
         run: composer phpmd
+        shell: bash
 
   twig-lint:
     name: Lint Twig Templates
     runs-on: ubuntu-latest
     steps:
-      - *checkout_step
-      - *setup_php_step
-      - *cache_composer_step
-      - *install_composer_step
+      - name: Setup Environment via Composite Action
+        uses: ./.github/actions/php-setup
+
       - name: Lint Twig Templates
         run: php bin/console lint:twig templates/
+        shell: bash
 
   security-check:
     name: Check Security Advisories
     runs-on: ubuntu-latest
     steps:
-      - *checkout_step
-      - *setup_php_step
-      - *cache_composer_step
-      - *install_composer_step
+      - name: Setup Environment via Composite Action
+        uses: ./.github/actions/php-setup
+
       - name: Check Symfony Security
         run: php bin/console security:check
+        shell: bash
