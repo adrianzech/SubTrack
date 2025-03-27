@@ -11,6 +11,9 @@ jobs:
     name: Run PHPStan
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Setup Environment via Composite Action
         uses: ./.github/actions/php-setup
 
@@ -22,6 +25,9 @@ jobs:
     name: Run PHP-CS-Fixer
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Setup Environment via Composite Action
         uses: ./.github/actions/php-setup
 
@@ -33,6 +39,9 @@ jobs:
     name: Run PHPMD
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Setup Environment via Composite Action
         uses: ./.github/actions/php-setup
 
@@ -44,6 +53,9 @@ jobs:
     name: Lint Twig Templates
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Setup Environment via Composite Action
         uses: ./.github/actions/php-setup
 
@@ -55,6 +67,9 @@ jobs:
     name: Check Security Advisories
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
       - name: Setup Environment via Composite Action
         uses: ./.github/actions/php-setup
 
