@@ -49,6 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APP_RUNTIME_ENV: test
+      PHP_CS_FIXER_IGNORE_ENV: 1
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -211,4 +212,4 @@ jobs:
           sudo apt-get install symfony-cli -y
 
       - name: Run Symfony Security Check
-        run: symfony check:security --env=test
+        run: symfony check:security
